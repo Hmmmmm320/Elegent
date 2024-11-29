@@ -1,0 +1,39 @@
+@startuml
+
+actor User
+boundary UserInterface
+control TaskController
+participant TaskList
+participant Category
+participant Priority
+participant Status
+participant Notification
+entity NewTask
+entity TaskA
+
+User -> UserInterface: 1.signIn()/signUp(): 用户登录/注册
+UserInterface -> TaskController: 2.EntryController(): 进入任务总览
+
+User -> UserInterface: 3.addTask(NewTask, taskDetails)
+UserInterface -> TaskController: 4.createTask(taskDetails)
+TaskController -> NewTask: 5.addDetails(taskDetails): 编辑任务信息
+TaskController -> Category: 6.assignCategory(NewTask, WORK)
+TaskController -> Priority: 7.assignPriority(NewTask, MEDIUM)
+TaskController -> Status: 8.setStatus(NewTask, UNSTARTED)
+TaskController -> TaskList: 9.addToList(): 加入任务列表
+TaskController -> Notification: 10.createNotification(NewTask)
+TaskController -> UserInterface: 11.finishNewTask()
+UserInterface -> User: 12.successCreate();
+
+User -> UserInterface: 13.editTask(TaskA, taskDetails): 编辑任务
+UserInterface -> TaskController: 14.changeTask(TaskA, taskDetails): 编辑任务
+TaskController -> TaskA: 15.updateDetails(taskDetails): 编辑任务信息
+TaskController -> Category: 16.assignCategory(TaskA, WORK)
+TaskController -> Priority: 17.assignPriority(TaskA, MEDIUM)
+TaskController -> Status: 18.setStatus(TaskA, UNSTARTED)
+TaskController -> TaskList: 19.updateList(TaskA): 更新任务列表
+TaskController -> Notification: 20.updateNotification(TaskA)
+TaskController -> UserInterface: 21.finishEditTask()
+UserInterface -> User: 22.successEdit();
+
+@enduml

@@ -1,0 +1,105 @@
+@startuml
+
+class User {
+    -userId: int
+    -userName: String
+    -tasks: List<Task>:任务列表
+    -userNotifications: List<Notification>:通知列表
+    +createTask(Task):创建任务
+    +editTask(Task):编辑任务
+    +deleteTask(Task):删除任务
+}
+
+class Task {
+    -taskId: int
+    -title: String:任务标题
+    -description: String:任务描述
+    -deadline: Date:截止日期
+    -reminderInterval: int:提醒间隔
+    -category: Category:任务类别
+    -priority: Priority:任务优先级
+    -status: Status:任务状态
+    +updateDeadline(Date):更新任务截止日期
+    +updateReminderInterval(int):更新任务提醒间隔
+    +updateStatus(Status):更新任务状态
+}
+
+enum Color{
+    RED:红色
+    YELLOW:黄色
+    GREEN:绿色
+    BLUE:蓝色 
+    PINK:粉色 
+    BLACK:黑色 
+    BROWN:棕色 
+    PURPLE:紫色 
+    WHITE:白色
+}
+
+enum Type{
+    WORK:工作相关
+    LIFE:生活相关
+    PLAY:娱乐相关
+    ELSE:自定义类型
+}
+
+class Category {
+    -categoryType: Type:任务类别名称
+    -tagColor: Color:任务标签颜色
+    +addTagColor(Color):添加标签颜色
+    +removeTagColor():删除标签颜色
+}
+
+Category ..> Color: 依赖
+Category ..> Type: 依赖
+
+enum Level{
+    HIGH:紧急
+    MEDIUM:重要但不紧急 
+    LOW:不重要
+}
+
+class Priority {
+    -level: Level:任务优先级
+    +setPriority(String):设置任务优先级
+}
+
+Priority ..> Level: 依赖
+
+enum State{
+    FINISHED:已完成
+    UNDERWAY:正在进行中
+    DUESOON:即将到期
+    UNSTARTED:尚未开始
+}
+
+class Status {
+    -statusName: State:任务状态
+    +setStatus(State):设置任务状态
+}
+
+Status ..> State: 依赖
+
+class Notification {
+    -notificationId: int
+    -taskId: int:通知关联的任务ID
+    -message: String:通知内容
+    -time: Date:发送通知的时间
+    +sendNotification():向用户发送通知
+}
+
+class Timeline {
+    -tasks: List<Task>:任务列表
+    +addTask(Task):向任务时间线添加任务
+    +removeTask(Task):从任务时间线上移除任务
+    +getTasksSortedByDeadline():根据DDL排序并返回任务列表
+}
+
+User "1" --> "0..*" Task : 创建
+Timeline "0..*" --> "0..*" Task : 包含
+Task "0..1" --> "1" Category : 属于
+Task "0..1" --> "1" Priority : 拥有
+Task "0..1" --> "1" Status : 拥有
+User "1" -- "0..*" Notification : 收到
+
+@enduml

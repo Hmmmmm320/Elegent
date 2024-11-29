@@ -1,0 +1,81 @@
+@startuml
+
+object User {
+    userId = 0
+    userName = "Hmmmmm"
+}
+
+object Task1 {
+    taskId = 101
+    title = "Finish homework"
+    description = "Math homework due tomorrow"
+    deadline = "2024-11-02"
+    reminderInterval = 30
+}
+
+object Category1 {
+    categoryType = Type.WORK
+    tagColor = Color.RED
+}
+
+object Priority1 {
+    level = Level.HIGH
+}
+
+object Status1 {
+    statusName = State.UNSTARTED
+}
+
+object Notification1 {
+    notificationId = 1
+    taskId = 101
+    message = "Reminder: Finish homework"
+    time = "2024-10-31"
+}
+
+object Task2 {
+    taskId = 102
+    title = "Grocery shopping"
+    description = "Buy vegetables and fruits"
+    deadline = "2024-11-03"
+    reminderInterval = 60
+}
+
+object Category2 {
+    categoryType = Type.LIFE
+    tagColor = Color.GREEN
+}
+
+object Priority2 {
+    level = Level.MEDIUM
+}
+
+object Status2 {
+    statusName = State.UNSTARTED
+}
+
+object Notification2 {
+    notificationId = 2
+    taskId = 102
+    message = "Reminder: Grocery shopping"
+    time = "2024-11-03"
+}
+
+object Timeline {
+    tasks = [Task1, Task2]
+}
+
+User --> Task1 : 创建
+User --> Task2 : 创建
+User --> Notification1 : 收到
+User --> Notification2 : 收到
+Task1 --> Category1 : 属于
+Task1 --> Priority1 : 拥有
+Task1 --> Status1 : 拥有
+Task2 --> Category2 : 属于
+Task2 --> Priority2 : 拥有
+Task2 --> Status2 : 拥有
+Timeline1 --> Task1 : 包含
+Timeline1 --> Task2 : 包含
+
+@enduml
